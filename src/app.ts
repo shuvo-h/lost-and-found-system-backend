@@ -1,14 +1,10 @@
 import express, { Application, NextFunction, Request, Response } from "express";
 import cors from 'cors';
-// import { userRouter } from "./app/modules/user/user.routes";
-// import { adminRouter } from "./app/modules/admin/admin.router";
-// import { v1ModuleRouter } from "./app/routes/v1_routes";
-// import { sendRes } from "./shared/sendResponse";
-// import httpStatus from "http-status";
-// import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
-// import { notFoundHandler } from "./app/middleware/notFoundHandler";
+import { v1ModuleRouter } from "./app/routes/v1_routes";
+import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
 import cookieParser from 'cookie-parser';
 import "./config/config"
+import { notFoundHandler } from "./app/middleware/notFoundHandler ";
 
 export const app: Application = express();
 app.use(cors());
@@ -20,7 +16,7 @@ app.use(cookieParser())
 
 // app.use("/api/v1/user",userRouter)
 // app.use("/api/v1/admin",adminRouter)
-// app.use('/api/v1',v1ModuleRouter)
+app.use('/api',v1ModuleRouter)
 
 app.get("/",(req:Request,res:Response)=>{
     res.json({
@@ -29,5 +25,5 @@ app.get("/",(req:Request,res:Response)=>{
 })
 
 
-// app.use(notFoundHandler)
-// app.use(globalErrorHandler)
+app.use(notFoundHandler)
+app.use(globalErrorHandler)
