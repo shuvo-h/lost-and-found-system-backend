@@ -15,7 +15,7 @@ type TDecodeuser = {
 declare global {
     namespace Express {
       interface Request {
-        user?: TDecodeuser;
+        user: TDecodeuser;
       }
     }
 }
@@ -30,7 +30,6 @@ declare global {
                 throw new ApiError(httpStatus.UNAUTHORIZED,"Token is required");
             }
             const decodeduser = jwtHelpers.verifyToken(token,env.JWT_SECRET as string) as TDecodeuser;
-            console.log(decodeduser);
 
             // not implementing role based 
             // if (roles.length && !roles.includes(decodeduser.role)) {
