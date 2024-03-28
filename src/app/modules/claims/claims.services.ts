@@ -5,7 +5,7 @@ import { TClaimPayload } from "./claims.interface";
 
 
 const createClaim = async (userId:string,payload: TClaimPayload) => {
-    // check category is valid and exist
+    // check item is valid and exist
     const foundItem = await prisma.foundItem.findFirst({
         where:{
             id: payload.foundItemId
@@ -16,9 +16,9 @@ const createClaim = async (userId:string,payload: TClaimPayload) => {
     }
     
     // already claim on this item
-    const existClaim = await prisma.foundItem.findFirst({
+    const existClaim = await prisma.claim.findFirst({
         where:{
-            id: payload.foundItemId,
+            foundItemId: payload.foundItemId,
             userId,
         }
     })
@@ -33,7 +33,14 @@ const createClaim = async (userId:string,payload: TClaimPayload) => {
     return result;
   };
   
+
+const getClaims = async () => {
+    const result = await prisma.claim.findMany();
+    return result;
+  };
+  
     
 export const claimServices = {
     createClaim,
+    getClaims,
 };

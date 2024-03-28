@@ -8,4 +8,5 @@ import { claimValidationSchema } from './claims.validation';
 export const claimRouter = express.Router();
 
 
+claimRouter.get("/claims",auth(),claimController.getClaims)
 claimRouter.post("/claims",auth(),validateRequest(claimValidationSchema.createClaim),claimController.createClaim)
