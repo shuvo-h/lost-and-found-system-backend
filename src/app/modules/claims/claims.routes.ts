@@ -10,3 +10,4 @@ export const claimRouter = express.Router();
 
 claimRouter.get("/claims",auth(),claimController.getClaims)
 claimRouter.post("/claims",auth(),validateRequest(claimValidationSchema.createClaim),claimController.createClaim)
+claimRouter.put("/claims/:claim_id",auth(),validateRequest(claimValidationSchema.updateClaim),claimController.updateClaim)

@@ -1,3 +1,4 @@
+import { CLAIM_STATUS } from "@prisma/client";
 import { z } from "zod";
 
 const createClaim = z.object({
@@ -16,7 +17,13 @@ const createClaim = z.object({
         }),
     })
 });
+const updateClaim = z.object({
+    body: z.object({
+        status: z.enum([CLAIM_STATUS.APPROVED,CLAIM_STATUS.PENDING,CLAIM_STATUS.REJECTED],{invalid_type_error:"Invalid status",required_error:"Status is required"}),
+    })
+});
 
 export const claimValidationSchema = {
     createClaim,
+    updateClaim,
 }
