@@ -5,7 +5,7 @@ import { env } from "./config/config";
 
 async function main() {
     const server: Server = app.listen(env.PORT,()=>{
-        console.log("ph-healthcare server listening at port ",Number(env.PORT));  
+        console.log("found-lost item system server listening at port ",Number(env.PORT));  
     })
 }
 

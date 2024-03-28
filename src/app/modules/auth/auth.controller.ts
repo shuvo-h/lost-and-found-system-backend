@@ -1,34 +1,45 @@
-import { NextFunction, Request, Response } from "express"
-import { userServices } from "../user/user.services"
-import { sendRes } from "../../../shared/sendRes"
-import httpStatus from "http-status"
-import { catchAsync } from "../../../shared/catchAsync "
+import { NextFunction, Request, Response } from "express";
+import httpStatus from "http-status";
+import { catchAsync } from "../../../shared/catchAsync ";
+import { sendRes } from "../../../shared/sendRes";
+import { authServices } from "./user.services";
 
-const createUser  = async(req:Request,res:Response,next:NextFunction) =>{
-    const result = await userServices.createUser(req)
-    sendRes(res,{
-        statusCode: httpStatus.CREATED,
-        message:"Admin created successfully",
-        data: result,
-        error: null,
-        success:true,
-        meta: null
-    })
-}
-const loginUser  = async(req:Request,res:Response,next:NextFunction) =>{
-    const result = await userServices.loginUser(req.body)
-    sendRes(res,{
-        statusCode: httpStatus.CREATED,
-        message:"User login successfully",
-        data: result,
-        error: null,
-        success:true,
-        meta: null
-    })
-}
+const createUser = async (req: Request, res: Response, next: NextFunction) => {
+  const result = await authServices.createUser(req.body);
 
+  sendRes(res, {
+    statusCode: httpStatus.OK,
+    message: "User created successfully",
+    data: result,
+    error: null,
+    success: true,
+    meta: null,
+  });
+};
+const loginUser = async (req: Request, res: Response, next: NextFunction) => {
+  const {accessToken,refreshToken,data} = await authServices.loginUser(req.body);
+  res.cookie("accessToken", accessToken, {
+    secure: process.env.NODE_ENV === "development" ? false : true,
+    httpOnly: true,
+  });
+  res.cookie("refreshToken", refreshToken, {
+    secure: process.env.NODE_ENV === "development" ? false : true,
+    httpOnly: true,
+  });
+  sendRes(res, {
+    statusCode: httpStatus.CREATED,
+    message: "User login successfully",
+    data: {
+        token:accessToken,
+        ...data
+    },
+    error: null,
+    success: true,
+    meta: null,
+  });
+};
 
 export const authController = {
-    createUser: catchAsync(createUser),
-    loginUser: catchAsync(loginUser),
-} 
+  createUser: catchAsync(createUser),
+  loginUser: catchAsync(loginUser),
+};

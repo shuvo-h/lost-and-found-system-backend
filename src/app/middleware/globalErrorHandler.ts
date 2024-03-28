@@ -21,18 +21,18 @@ const getJWTErrorMessage = (err: jwt.JsonWebTokenError): string => {
 };
 
 export const globalErrorHandler = (err:any,req:Request,res:Response,next:NextFunction)=>{
+    let errorDetails = err.errorDetails || null;
     
-    let errorDetails = null;
     let message = err.message || "Something happen wrong";
     if (err instanceof z.ZodError) {
         
         errorDetails = {
             issues: err.errors.map((err:any) => ({
-                field: err.path.join('.'),
+                field:  err.path.join('.')?.replace('body.', ''),
                 message: err.message
             }))
         }
-        message = errorDetails.issues.map(({message})=>message).join(", ")
+        message = errorDetails.issues.map(({message}:{message:string})=>message).join(", ")
     }else if (err instanceof jwt.JsonWebTokenError) {
         errorDetails = {
             issues: [{
