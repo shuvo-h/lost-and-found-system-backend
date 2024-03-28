@@ -20,7 +20,7 @@ app.use('/api',v1ModuleRouter)
 
 app.get("/",(req:Request,res:Response)=>{
     res.json({
-        Okay: "Ok"
+        Okay: "Ok Lost and Found System"
     })
 })
 
