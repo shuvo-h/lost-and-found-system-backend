@@ -8,6 +8,7 @@ import { foundItemController } from './foundItem.controller';
 export const foundItemRouter = express.Router();
 
 
+foundItemRouter.get("/found-items",auth(),foundItemController.getFoundItems)
 foundItemRouter.post("/found-items",auth(),validateRequest(foundItemValidationSchema.createFoundItem),foundItemController.createFoundItem)
 
 
