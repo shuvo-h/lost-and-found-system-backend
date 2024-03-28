@@ -73,6 +73,9 @@ model Claim {
   user      User      @relation(fields: [userId], references: [id])
   foundItem FoundItem @relation(fields: [foundItemId], references: [id])
 
+  // Belongs to one User. Belongs to one FoundItemCategory
+  @@unique([userId, foundItemId])
+
   @@map("claims")
 }
 
