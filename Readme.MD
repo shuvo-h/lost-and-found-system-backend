@@ -80,7 +80,7 @@ Click here to visit lost and found system [Live Url](https://assign-8-two.vercel
 6. Start the server:
 
     ```bash
-    npm start
+    npm run start
     ```
 
 ## **Error Handling:**
