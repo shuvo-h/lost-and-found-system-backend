@@ -7,6 +7,20 @@ import ApiError from "../../errors/ApiError";
 import { TUserPayload } from "../user/interface.user";
 
 const createUser = async (payload: TUserPayload) => {
+  // if email already exist, through error
+  const isExistuser = await prisma.user.findUnique({
+    where:{
+      email: payload.email
+    }
+  })
+  if (isExistuser) {
+    throw new ApiError(
+      httpStatus.FORBIDDEN,
+      "Email already exist",
+      null,
+      "email"
+    );
+  }
   const saltRound = 12;
   const hashedPassword: string = await bcrypt.hash(payload.password, saltRound);
   const userData = {

@@ -27,6 +27,17 @@ const updateProfile = async (userId:string,payload: { bio?: string; age?:number 
         userId
       },
       data: payload,
+      include:{
+        user:{
+          select:{
+            id: true,
+            name: true,
+            email: true,
+            createdAt: true,
+            updatedAt: true,
+          }
+        }
+      }
     });
     return result;
   };
