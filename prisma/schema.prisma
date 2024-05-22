@@ -16,13 +16,14 @@ datasource db {
 model User {
   id        String   @id @default(uuid())
   name      String
-  email     String  @unique
+  email     String   @unique
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   // references
   foundItems FoundItem[]
+  lostItems  LostItem[]
   claims     Claim[]
   profile    UserProfile?
 
@@ -31,12 +32,13 @@ model User {
 
 model FoundItemCategory {
   id        String   @id @default(uuid())
-  name      String    @unique
+  name      String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   // relationship 
   foundItems FoundItem[]
+  lostItems  LostItem[]
 
   @@map("founditemcategories")
 }
@@ -75,8 +77,30 @@ model Claim {
 
   // Belongs to one User. Belongs to one FoundItemCategory
   @@unique([userId, foundItemId])
-
   @@map("claims")
+}
+
+// lost items 
+model LostItem {
+  id           String       @id @default(uuid())
+  userId       String
+  categoryId   String
+  status       CLAIM_STATUS @default(PENDING)
+  lostItemName String
+  description  String
+  location     String
+  lostDate     DateTime
+  img          String?
+  phone        String?
+  email        String?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  // references 
+  user     User              @relation(fields: [userId], references: [id])
+  category FoundItemCategory @relation(fields: [categoryId], references: [id])
+
+  @@map("lostitems")
 }
 
 model UserProfile {
