@@ -8,12 +8,16 @@ import { TUserPayload } from "../user/interface.user";
 
 const createUser = async (payload: TUserPayload) => {
   // if email already exist, through error
-  const isExistuser = await prisma.user.findUnique({
+  const isExistuser = await prisma.user.findFirst({
     where:{
-      email: payload.email
+      OR:[
+        {email:payload.email},
+        {username:payload.username},
+      ]
+      // email: payload.email
     }
   })
-  if (isExistuser) {
+  if (isExistuser?.email === payload.email) {
     throw new ApiError(
       httpStatus.FORBIDDEN,
       "Email already exist",
@@ -21,10 +25,19 @@ const createUser = async (payload: TUserPayload) => {
       "email"
     );
   }
+  if (isExistuser?.username === payload.username) {
+    throw new ApiError(
+      httpStatus.FORBIDDEN,
+      "Username already exist",
+      null,
+      "username"
+    );
+  }
   const saltRound = 12;
   const hashedPassword: string = await bcrypt.hash(payload.password, saltRound);
   const userData = {
     email: payload.email,
+    username: payload.username,
     name: payload.name,
     password: hashedPassword,
   };
@@ -47,12 +60,20 @@ const createUser = async (payload: TUserPayload) => {
   return rest;
 };
 
-const loginUser = async (payload: { email: string; password: string }) => {
+const loginUser = async (payload: { email_or_username: string; password: string }) => {
   const user = await prisma.user.findFirstOrThrow({
     where: {
-      email: payload.email,
+      OR:[
+        {
+          email: payload.email_or_username,
+        },
+        {
+          username: payload.email_or_username,
+        },
+      ]
     },
   });
+
   const isCorrectPassword = await bcrypt.compare(
     payload.password,
     user.password

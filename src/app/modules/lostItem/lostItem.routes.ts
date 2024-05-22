@@ -9,7 +9,7 @@ import { FileUploadHelper } from '../../../helpers/fileUploadHelper';
 export const lostItemRouter = express.Router();
 
 
-lostItemRouter.get("/lost-items",auth(),lostItemController.getLostItems)
+lostItemRouter.get("/lost-items",lostItemController.getLostItems)
 lostItemRouter.post("/lost-items",
 auth(),
 FileUploadHelper.upload.single('file'),

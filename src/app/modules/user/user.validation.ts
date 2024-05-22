@@ -6,6 +6,14 @@ const createUser = z.object({
             invalid_type_error:"Name must be string",
             required_error:"Name is required"
         }),
+        username: z.string({
+            invalid_type_error: "Username must be a string",
+            required_error: "Username is required"
+        }).refine(value => {
+            return /^[a-z][a-z0-9]*$/.test(value);
+        }, {
+            message: "Username must contain only lowercase letters and numbers, and cannot start with a number"
+        }),
         email: z.string({
             invalid_type_error:"Email must be string",
             required_error:"Email is required"
@@ -18,22 +26,22 @@ const createUser = z.object({
             bio: z.string({
                 invalid_type_error:"Bio must be string",
                 required_error:"Bio is required"
-            }),
+            }).optional(),
             age: z.number({
                 invalid_type_error:"Age must be number",
                 required_error:"Age is required"
-            }).min(0,{message:"Age can't be negative"}),
+            }).min(0,{message:"Age can't be negative"}).optional(),
 
-        }),
+        }).optional(),
     })
 })
 
 const loginUser = z.object({
     body: z.object({
-        email: z.string({
+        email_or_username: z.string({
             invalid_type_error:"Email must be string",
             required_error:"Email is required"
-        }).email({message:"Invalid email address"}),
+        }),
         password: z.string({
             invalid_type_error:"Password must be string",
             required_error:"Password is required"

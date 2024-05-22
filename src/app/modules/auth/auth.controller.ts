@@ -30,7 +30,7 @@ const loginUser = async (req: Request, res: Response, next: NextFunction) => {
     statusCode: httpStatus.OK,
     message: "User login successfully",
     data: {
-        token:accessToken,
+      accessToken:accessToken,
         ...data
     },
     error: null,
