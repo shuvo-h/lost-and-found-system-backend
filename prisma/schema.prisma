@@ -49,8 +49,14 @@ model FoundItem {
   userId        String
   categoryId    String
   foundItemName String
+  status                 CLAIM_STATUS @default(PENDING)
   description   String
   location      String
+  foundDate     DateTime
+  claim_process String
+  phone         String?
+  email         String?
+  img           String?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 

@@ -18,6 +18,19 @@ const createFoundItem = async (req: Request, res: Response, next: NextFunction) 
       meta: null,
     });
 };
+const updateFoundItemById = async (req: Request, res: Response, next: NextFunction) => {
+  const foundId = req.params.found_id;
+    const result = await foundItemServices.updateFoundItemById(req.user.id,foundId,req.body);
+  
+    sendRes(res, {
+      statusCode: httpStatus.CREATED,
+      message: "Found Item updated successfully",
+      data: result,
+      error: null,
+      success: true,
+      meta: null,
+    });
+};
 const getFoundItems = async (req: Request, res: Response, next: NextFunction) => {
 
     const {data,meta} = await foundItemServices.getFoundItems(req.query as unknown as TFoundItemQuery);
@@ -32,10 +45,26 @@ const getFoundItems = async (req: Request, res: Response, next: NextFunction) =>
     });
 };
 
+const deleteFoundItemById = async (req: Request, res: Response, next: NextFunction) => {
+    const found_id = req.params.found_id;
+    const result = await foundItemServices.deleteFoundItemById(req.user.id,found_id);
+  
+    sendRes(res, {
+      statusCode: httpStatus.OK,
+      message: "Found Item deleted successfully",
+      data:result,
+      error: null,
+      success: true,
+      meta:null,
+    });
+};
+
 
 
 export const foundItemController = {
     createFoundItem: catchAsync(createFoundItem),
     getFoundItems: catchAsync(getFoundItems),
+    deleteFoundItemById: catchAsync(deleteFoundItemById),
+    updateFoundItemById: catchAsync(updateFoundItemById),
   };
   

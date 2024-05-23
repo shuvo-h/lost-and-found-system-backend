@@ -17,9 +17,23 @@ const createFoundItemCtg = async (req: Request, res: Response, next: NextFunctio
     });
 };
 
+const getFoundItemCtg = async (req: Request, res: Response, next: NextFunction) => {
+    const result = await foundItemCtgServices.getFoundItemCtg();
+  
+    sendRes(res, {
+      statusCode: httpStatus.CREATED,
+      message: "Found Item Category retrived successfully",
+      data: result,
+      error: null,
+      success: true,
+      meta: null,
+    });
+};
+
 
 
 export const foundItemCtgController = {
     createFoundItemCtg: catchAsync(createFoundItemCtg),
+    getFoundItemCtg: catchAsync(getFoundItemCtg),
   };
   

@@ -34,11 +34,32 @@ const createFoundItem = async (userId:string,payload: TFoundItemPayload) => {
     });
     return result;
   };
+const updateFoundItemById = async (userId:string,foundItemId:string,payload: TFoundItemPayload) => {
+    // check category is valid and exist
+     await prisma.foundItem.findFirstOrThrow({
+        where:{
+            id: foundItemId,
+            userId: userId
+        }
+    })
+    
+
+    const result = await prisma.foundItem.update({
+      where:{
+        id: foundItemId,
+        userId: userId
+      },
+      data:{...payload}
+    });
+    return result;
+  };
+  
+
   
 
 const getFoundItems = async (query:TFoundItemQuery) => {
   const foundItemSearchableFields = ['foundItemName','location','description'];
-   const foundItemsFilterableFields:(keyof TFoundItemQuery)[] = ['searchTerm','foundItemName'];
+   const foundItemsFilterableFields:(keyof TFoundItemQuery)[] = ['searchTerm','foundItemName','userId'];
     const filters = pick(query,foundItemsFilterableFields)
     // replace foundDate property by createdAt
     if (query.sortBy === "foundDate") {
@@ -111,8 +132,30 @@ const getFoundItems = async (query:TFoundItemQuery) => {
 
   };
   
+
+  const deleteFoundItemById = async (userId:string,found_id: string) => {
+    // check category is valid and exist
+    const foundItemCtg = await prisma.foundItem.findFirstOrThrow({
+        where:{
+            id: found_id,
+            userId: userId,
+        }
+    })
+
+    const result = await prisma.foundItem.delete({
+      where:{
+        id: found_id,
+        userId: userId
+      }
+    })
+    
+    return result;
+  };
+
   export const foundItemServices = {
     createFoundItem,
-    getFoundItems
+    getFoundItems,
+    deleteFoundItemById,
+    updateFoundItemById,
   };
   

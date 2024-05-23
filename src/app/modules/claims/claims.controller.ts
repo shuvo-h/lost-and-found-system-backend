@@ -19,7 +19,7 @@ const createClaim = async (req: Request, res: Response, next: NextFunction) => {
 
 
 const getClaims = async (req: Request, res: Response, next: NextFunction) => {
-    const result = await claimServices.getClaims();
+    const result = await claimServices.getClaims(req.query);
   
     sendRes(res, {
       statusCode: httpStatus.OK,

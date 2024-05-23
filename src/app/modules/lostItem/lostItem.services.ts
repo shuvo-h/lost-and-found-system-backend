@@ -45,6 +45,26 @@ const createLostItem = async (userId: string, payload: TLostItem) => {
   return result;
 };
 
+const updateLostItem = async (userId: string, itemId:string,payload: TLostItem) => {
+  
+  // check category is valid and exist
+  await prisma.lostItem.findFirstOrThrow({
+    where: {
+      id: itemId,
+      userId: userId
+    },
+  });
+  
+  const result = await prisma.lostItem.update({
+    where: { 
+       id: itemId,
+       userId: userId
+    },
+    data: payload
+  });
+  return result;
+};
+
 const getLostItems = async (query: TLostItemQuery) => {
   const foundItemSearchableFields = [
     "lostItemName",
@@ -54,6 +74,7 @@ const getLostItems = async (query: TLostItemQuery) => {
   const foundItemsFilterableFields: (keyof TLostItemQuery)[] = [
     "searchTerm",
     "lostItemName",
+    "userId"
   ];
   const filters = pick(query, foundItemsFilterableFields);
   
@@ -125,7 +146,31 @@ const getLostItems = async (query: TLostItemQuery) => {
   };
 };
 
-export const foundItemServices = {
+
+
+const deleteLostItem = async (userId:string,lostId: string) => {
+  // check category is valid and exist
+  const foundItemCtg = await prisma.lostItem.findFirstOrThrow({
+      where:{
+          id: lostId,
+          userId: userId,
+      }
+  })
+
+  const result = await prisma.lostItem.delete({
+    where:{
+      id: lostId,
+      userId: userId
+    }
+  })
+  
+  return result;
+};
+
+
+export const lostItemServices = {
   createLostItem,
   getLostItems,
+  updateLostItem,
+  deleteLostItem,
 };

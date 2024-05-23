@@ -6,6 +6,11 @@ export type TFoundItemPayload ={
     foundItemName: string;
     description: string;
     location: string;
+    foundDate :    Date
+    claim_process: string
+    phone?:         string
+    email? :        string
+    img?:           string
 }
 
 export type TFoundItemQuery ={
@@ -13,4 +18,5 @@ export type TFoundItemQuery ={
     foundItemName: string;
     foundDate: string;
     createdAt?:Date
+    userId?: string;
 } & IPaginationOptions

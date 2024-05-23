@@ -2,7 +2,7 @@ import httpStatus from "http-status";
 import { prisma } from "../../../shared/prisma";
 import ApiError from "../../errors/ApiError";
 import { TClaimPayload } from "./claims.interface";
-import { CLAIM_STATUS } from "@prisma/client";
+import { CLAIM_STATUS, Prisma } from "@prisma/client";
 
 
 const createClaim = async (userId:string,payload: TClaimPayload) => {
@@ -35,8 +35,17 @@ const createClaim = async (userId:string,payload: TClaimPayload) => {
   };
   
 
-const getClaims = async () => {
+const getClaims = async (query:Record<string,any>) => {
+    const whereCondition:Prisma.ClaimWhereInput = {}
+    if (query.userId) {
+        whereCondition.userId = query.userId
+    }
+    
+    
     const result = await prisma.claim.findMany({
+        where:{
+            ...whereCondition
+        },
         include:{
             foundItem:{
                 include:{

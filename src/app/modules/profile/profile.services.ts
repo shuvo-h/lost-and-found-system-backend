@@ -17,7 +17,31 @@ const getProfile = async (userId:string) => {
         }
       }
     });
-    return result;
+
+    //  return my count of lost item, found item and claims
+    const [lost,found,claim] = await Promise.all([
+      prisma.lostItem.count({
+        where:{
+          userId
+        }
+      }),
+      prisma.foundItem.count({
+        where:{
+          userId
+        }
+      }),
+      prisma.claim.count({
+        where:{
+          userId
+        }
+      }),
+    ])
+
+
+    return {
+      ...result,
+      count: {lost,found,claim}
+    };
   };
   
 const updateProfile = async (userId:string,payload: { bio?: string; age?:number }) => {

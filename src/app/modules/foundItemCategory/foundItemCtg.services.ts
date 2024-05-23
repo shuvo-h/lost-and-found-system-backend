@@ -24,7 +24,16 @@ const createFoundItemCtg = async (payload: { name: string; }) => {
     return result;
   };
   
+const getFoundItemCtg = async () => {
+  
+
+
+    const result = await prisma.foundItemCategory.findMany();
+    return result;
+  };
+  
   export const foundItemCtgServices = {
     createFoundItemCtg,
+    getFoundItemCtg,
   };
   

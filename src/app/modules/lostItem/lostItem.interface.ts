@@ -19,4 +19,5 @@ export type TLostItemQuery ={
     status: CLAIM_STATUS;
     lostDate: string;
     createdAt?:Date
+    userId?: string;
 } & IPaginationOptions
