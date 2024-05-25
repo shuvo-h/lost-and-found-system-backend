@@ -19,4 +19,6 @@ export type TFoundItemQuery ={
     foundDate: string;
     createdAt?:Date
     userId?: string;
+    location?: string;
+    categoryId?: string;
 } & IPaginationOptions

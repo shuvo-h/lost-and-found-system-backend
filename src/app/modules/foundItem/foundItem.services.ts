@@ -59,8 +59,9 @@ const updateFoundItemById = async (userId:string,foundItemId:string,payload: TFo
 
 const getFoundItems = async (query:TFoundItemQuery) => {
   const foundItemSearchableFields = ['foundItemName','location','description'];
-   const foundItemsFilterableFields:(keyof TFoundItemQuery)[] = ['searchTerm','foundItemName','userId'];
-    const filters = pick(query,foundItemsFilterableFields)
+   const foundItemsFilterableFields:(keyof TFoundItemQuery)[] = ['searchTerm','foundItemName','userId','categoryId','location'];
+    const filters = pick(query,foundItemsFilterableFields);
+    
     // replace foundDate property by createdAt
     if (query.sortBy === "foundDate") {
       query.sortBy = "createdAt"

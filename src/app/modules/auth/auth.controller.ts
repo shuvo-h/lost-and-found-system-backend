@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
 import { catchAsync } from "../../../shared/catchAsync ";
 import { sendRes } from "../../../shared/sendRes";
-import { authServices } from "./auth.services";
+import {  authServices } from "./auth.services";
 
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
   const result = await authServices.createUser(req.body);
@@ -52,6 +52,8 @@ const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
     meta: null,
   });
 };
+
+
 const loginUser = async (req: Request, res: Response, next: NextFunction) => {
   const {accessToken,refreshToken,data} = await authServices.loginUser(req.body);
   res.cookie("accessToken", accessToken, {
