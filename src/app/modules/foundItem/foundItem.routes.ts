@@ -10,6 +10,7 @@ export const foundItemRouter = express.Router();
 
 foundItemRouter.get("/found-items",auth(),foundItemController.getFoundItems)
 foundItemRouter.delete("/found-items/:found_id",auth(),foundItemController.deleteFoundItemById)
+foundItemRouter.get("/found-items/:found_id",auth(),foundItemController.getSingleFoundItemById)
 foundItemRouter.patch("/found-items/:found_id",auth(),validateRequest(foundItemValidationSchema.updateFoundItem),foundItemController.updateFoundItemById)
 foundItemRouter.post("/found-items",auth(),validateRequest(foundItemValidationSchema.createFoundItem),foundItemController.createFoundItem)
 

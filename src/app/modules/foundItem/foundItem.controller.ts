@@ -58,6 +58,19 @@ const deleteFoundItemById = async (req: Request, res: Response, next: NextFuncti
       meta:null,
     });
 };
+const getSingleFoundItemById = async (req: Request, res: Response, next: NextFunction) => {
+    const found_id = req.params.found_id;
+    const result = await foundItemServices.getSingleFoundItemById(found_id);
+  
+    sendRes(res, {
+      statusCode: httpStatus.OK,
+      message: "Found Item retrived successfully",
+      data:result,
+      error: null,
+      success: true,
+      meta:null,
+    });
+};
 
 
 
@@ -66,5 +79,6 @@ export const foundItemController = {
     getFoundItems: catchAsync(getFoundItems),
     deleteFoundItemById: catchAsync(deleteFoundItemById),
     updateFoundItemById: catchAsync(updateFoundItemById),
+    getSingleFoundItemById: catchAsync(getSingleFoundItemById),
   };
   

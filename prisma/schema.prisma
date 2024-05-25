@@ -18,6 +18,7 @@ model User {
   name      String
   email     String   @unique
   username     String   @unique
+  status USER_STATUS @default(ACTIVE)
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -129,4 +130,8 @@ enum CLAIM_STATUS {
   PENDING
   APPROVED
   REJECTED
+}
+enum USER_STATUS {
+  ACTIVE
+  DEACTIVE
 }

@@ -3,6 +3,8 @@ import { env } from "../../config/config";
 import { jwtHelpers } from "../../helpers/jwtHelpers";
 import ApiError from "../errors/ApiError";
 import httpStatus from "http-status";
+import { prisma } from "../../shared/prisma";
+import { USER_STATUS } from "@prisma/client";
 
 type TDecodeuser = {
     id: string,
@@ -22,7 +24,7 @@ declare global {
 
  export const auth = (...roles:string[]) =>{
      
-     return (req:Request,res:Response,next:NextFunction)=>{
+     return async(req:Request,res:Response,next:NextFunction)=>{
         
         try {
             const token = req.headers.authorization;
@@ -35,6 +37,23 @@ declare global {
             // if (roles.length && !roles.includes(decodeduser.role)) {
             //     throw new ApiError(httpStatus.FORBIDDEN,"Must be a admin to create another admin");
             // }
+
+            // check if this is real user
+            const user = await prisma.user.findFirstOrThrow({
+              where:{
+                id: decodeduser.id,
+              },
+            })
+
+            if (user.status !== USER_STATUS.ACTIVE) {
+              throw new ApiError(
+                httpStatus.FORBIDDEN,
+                "Account is deactive",
+                null,
+                "common"
+              );
+            }
+          
             
             req.user = decodeduser;
             next()

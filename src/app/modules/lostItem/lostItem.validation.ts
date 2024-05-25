@@ -28,13 +28,13 @@ const createLostItem = z.object({
         }).optional(),
         img: z.string({
             invalid_type_error: "img must be a string",
-        }).optional(),
+        }).optional().or(z.literal('')),
         phone: z.string({
             invalid_type_error: "phone must be a string",
-        }).optional(),
+        }).optional().or(z.literal('')),
         email: z.string({
             invalid_type_error: "email must be a string"
-        }).email({message:"Invalid email"}).optional(),
+        }).email({message:"Invalid email"}).optional().or(z.literal('')),
     })
    
 });
@@ -63,13 +63,13 @@ const updateLostItem = z.object({
         }).optional(),
         img: z.string({
             invalid_type_error: "img must be a string",
-        }).optional(),
+        }).optional().or(z.literal('')),
         phone: z.string({
             invalid_type_error: "phone must be a string",
-        }).optional(),
+        }).optional().or(z.literal('')),
         email: z.string({
             invalid_type_error: "email must be a string"
-        }).email({message:"Invalid email"}).optional(),
+        }).email({message:"Invalid email"}).optional().or(z.literal('')),
     })
    
 });

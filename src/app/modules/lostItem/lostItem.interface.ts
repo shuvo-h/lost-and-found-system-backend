@@ -20,4 +20,5 @@ export type TLostItemQuery ={
     lostDate: string;
     createdAt?:Date
     userId?: string;
+    id?: string;
 } & IPaginationOptions

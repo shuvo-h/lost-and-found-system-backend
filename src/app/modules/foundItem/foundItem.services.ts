@@ -152,10 +152,26 @@ const getFoundItems = async (query:TFoundItemQuery) => {
     return result;
   };
 
+  const getSingleFoundItemById = async (found_id: string) => {
+    
+    const result = await prisma.foundItem.findFirstOrThrow({
+      where:{
+        id: found_id,
+      },
+      include:{
+        user: true,
+        claims: true,
+      }
+    })
+    
+    return result;
+  };
+
   export const foundItemServices = {
     createFoundItem,
     getFoundItems,
     deleteFoundItemById,
     updateFoundItemById,
+    getSingleFoundItemById,
   };
   

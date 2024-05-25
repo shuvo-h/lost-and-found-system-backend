@@ -16,6 +16,42 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
     meta: null,
   });
 };
+const passwordChange = async (req: Request, res: Response, next: NextFunction) => {
+  const result = await authServices.passwordChange(req.user.id,req.body);
+
+  sendRes(res, {
+    statusCode: httpStatus.CREATED,
+    message: "Password changed successfully",
+    data: result,
+    error: null,
+    success: true,
+    meta: null,
+  });
+};
+const updateUser = async (req: Request, res: Response, next: NextFunction) => {
+  const result = await authServices.updateUser(req.user.id,req.body);
+
+  sendRes(res, {
+    statusCode: httpStatus.CREATED,
+    message: "User info changed successfully",
+    data: result,
+    error: null,
+    success: true,
+    meta: null,
+  });
+};
+const getMetrics = async (req: Request, res: Response, next: NextFunction) => {
+  const result = await authServices.getMetrics();
+
+  sendRes(res, {
+    statusCode: httpStatus.CREATED,
+    message: "Metrics retrived successfully",
+    data: result,
+    error: null,
+    success: true,
+    meta: null,
+  });
+};
 const loginUser = async (req: Request, res: Response, next: NextFunction) => {
   const {accessToken,refreshToken,data} = await authServices.loginUser(req.body);
   res.cookie("accessToken", accessToken, {
@@ -42,4 +78,7 @@ const loginUser = async (req: Request, res: Response, next: NextFunction) => {
 export const authController = {
   createUser: catchAsync(createUser),
   loginUser: catchAsync(loginUser),
+  passwordChange: catchAsync(passwordChange),
+  updateUser: catchAsync(updateUser),
+  getMetrics: catchAsync(getMetrics),
 };

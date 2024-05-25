@@ -74,7 +74,8 @@ const getLostItems = async (query: TLostItemQuery) => {
   const foundItemsFilterableFields: (keyof TLostItemQuery)[] = [
     "searchTerm",
     "lostItemName",
-    "userId"
+    "userId",
+    "id"
   ];
   const filters = pick(query, foundItemsFilterableFields);
   
