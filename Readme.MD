@@ -6,7 +6,7 @@ Welcome to the Lost and Found System! This project is a comprehensive solution t
 
 ## 🌐 Live URL
 
-Click here to visit lost and found system [Live Url](https://assign-8-two.vercel.app/api/register)
+Click here to visit lost and found system [Live Url](https://found-lost-system.vercel.app)
 
 ## 📚 Features
 
@@ -41,13 +41,13 @@ Click here to visit lost and found system [Live Url](https://assign-8-two.vercel
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/Porgramming-Hero-web-course/l2-b2-fullstack-track-assignment-8-shuvo-h.git
+    git clone https://github.com/shuvo-h/lost-and-found-system-backend.git
     ```
 
 2. Navigate to the project directory:
 
     ```bash
-    cd l2-b2-fullstack-track-assignment-8-shuvo-h
+    cd lost-and-found-system-backend
     ```
 
 3. Install dependencies:
