@@ -174,6 +174,33 @@ const updateUser = async (userId:string,payload: Partial<TUpdatePayload>) => {
     },
   });
 
+  if (payload.email) {
+    const isExist = await prisma.user.findFirst({
+      where:{
+          email:payload.email,
+          NOT:{
+            id: userId
+          }
+      }
+   })
+   if (isExist) {
+    throw new ApiError(httpStatus.CONFLICT,"Email already exist")
+   }
+  }
+  if (payload.username) {
+    const isExist = await prisma.user.findFirst({
+      where:{
+        username:payload.username,
+        NOT:{
+          id: userId
+        }
+      }
+   })
+   if (isExist) {
+    throw new ApiError(httpStatus.CONFLICT,"Username already exist")
+   }
+  }
+
   const result = prisma.$transaction(async(tx)=>{
     const userR = await tx.user.update({
       where:{
